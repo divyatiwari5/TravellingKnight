@@ -31,7 +31,7 @@ function travellingKnight(x, y, n) {
     let possibleSteps = [[1, 2], [1, -2], [-1, 2], [-1, -2], [2, 1], [2,-1], [-2, 1], [-2, -1]];
 
     // FIFO Queue to store untraversed travelled coordinates in an ordered manner
-    let fifoQueue = [];
+    let lifoQueue = [];
 
     let cordTree = {};
 
@@ -40,7 +40,7 @@ function travellingKnight(x, y, n) {
     // Travelling initial coordinate
     if(isValidCoordinate(initialCord, n)) {
         // traverse(n, new Set([initialCord.toString()]), initialCord, cordTree);
-       fifoQueue.push(initialCord);
+       lifoQueue.push(initialCord);
        cordTree[initialCord.toString()] = {
            childs: []
        };
@@ -48,8 +48,8 @@ function travellingKnight(x, y, n) {
     }
 
     // Travelling next moves for each coordinates in FIFO Queue
-    while(fifoQueue.length > 0) {
-        var currentCoordinate = fifoQueue.pop();
+    while(lifoQueue.length > 0) {
+        var currentCoordinate = lifoQueue.pop();
         let currentCordChild = cordTree[currentCoordinate.toString()].childs;
 
         possibleSteps.forEach((step) => {
@@ -58,7 +58,7 @@ function travellingKnight(x, y, n) {
 
             // Travelling to stepDestination if it is a valid coordinate and is not already travelled
             if (isValidCoordinate(stepDestination, n) && !(stepDestinationString in cordTree)) {
-                fifoQueue.push(stepDestination);
+                lifoQueue.push(stepDestination);
                 currentCordChild.push(stepDestinationString);
                 cordTree[stepDestinationString] = {
                     childs: []
